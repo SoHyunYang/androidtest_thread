@@ -1,5 +1,3 @@
-# androidtest_thread
-
 ```
 스터디 진행 : 2016년 5월 7일, 양소현
 최초 작성자 : 양소현
@@ -151,14 +149,77 @@ public View getView(int position, View convertView, ViewGroup parent)
 
 ![gridview.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/gridview.JPG?,raw=true)
 
-**gridView 생성**
+**View 생성**
 ```XML
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"   
+    tools:context="kr.co.mash_up.asynctask_example.MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시작 전"
+        android:id="@+id/textView"/>
     
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/progressBar"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시작"
+        android:id="@+id/start_btn"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="중지"
+        android:id="@+id/end_btn"/>
+
+</LinearLayout>    
 ```
-**gridView inflation**
+**View inflation**
 
 ```JAVA
+public class MainActivity extends AppCompatActivity {
 
+    TextView textView;
+    ProgressBar progressBar;
+    Button start_btn;
+    Button end_btn;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        textView=(TextView)findViewById(R.id.textView);
+        progressBar=(ProgressBar)findViewById(R.id.progressBar);
+        start_btn=(Button)findViewById(R.id.start_btn);
+        
+        start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+        end_btn=(Button)findViewById(R.id.end_btn);
+        
+        end_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+        
+        
+    }
+}
 ```
 **inner class로 Adaptor 생성**
 ```JAVA
