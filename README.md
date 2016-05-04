@@ -1,0 +1,172 @@
+# androidtest_thread
+
+```
+스터디 진행 : 2016년 5월 7일, 양소현
+최초 작성자 : 양소현
+최초 작성일 : 2016년 5월 5일
+마지막 수정 : 2016년 5월 6일, 양소현
+```
+
+# Thread & Handler & Looper
+여러개의 item을 중에 하나를 선택할 수 있는 위젯
+
+ex) 리스트뷰, 그리드뷰, 스피너, 갤러리
+
+**Thread**
+
+**Handler**
+
+직접 위젯에 원본데이터를 설정할 수 없다.-> 데이터 설정 및 관리를 하기 위해 어댑터를 사용
+
+어댑터에서 만들어주는 뷰를 이용하여(getView()method 사용) 리스트뷰의 아이템을 보여준다. 
+
+**Looper**
+![selectionwidget.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/selectionwidget.JPG?,raw=true)
+# List View
+
+##1. java의 Thread 사용 
+![listView1.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/listView1.JPG?,raw=true)
+
+**listView 생성**
+```XML
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+```
+**listView inflation**
+
+```JAVA
+public class MainActivity extends AppCompatActivity {
+
+    ListView listView;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        listView=(ListView)findViewById(R.id.listView);
+
+    }
+```
+**inner class로 Adaptor 생성**
+
+```JAVA
+ public int getCount()
+```
+어댑터에서 관리하는 아이템의 개수를 리턴하는 함수
+```JAVA
+ public Object getItem(int position)
+```
+해당 index에 대한 아이템을 리턴하는 함수
+```JAVA
+ public long getItemId(int position)
+``` 
+해당 index에 대한 position을 리턴하는 함수
+```JAVA
+public View getView(int position, View convertView, ViewGroup parent)
+```
+각 아이템에 보일 뷰를 리턴하는 함수
+
+첫번째 파라미터 : 아이템의 인덱스를 의미, 리스트뷰에서 보일 아이템의 위치 정보 
+
+두번째 파라미터 : 현재 인덱스에 해당하는 뷰 객체 
+
+세번째 파라미터 : 이 뷰를 포함하고 있는 부모 컨테이너 객체
+
+ 
+```JAVA
+
+```
+**listView에 Adaptor를 설정해 주기**
+```JAVA
+
+
+```
+
+
+##2. Handler 사용
+![listView2.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/listView2.JPG?,raw=true)
+
+**XML파일로 view group 만들기 (view 구성)**
+
+```XML
+
+
+```
+**만든 view group을 화면에 붙이기**
+```JAVA
+```
+
+##3. Runnable 객체 사용
+```JAVA
+
+```
+**arrayList 객체를 따로 만들어서 data 관리**
+```JAVA
+
+```
+
+**listitem에 대한 class 생성**
+```JAVA
+
+```
+**adaptor에 item설정해주기**
+```JAVA
+
+```        
+
+
+```JAVA
+ 
+```
+**ListItem type으로 ArrayList를 만들고 ListItem객체를 만들어 ListItem 속에 정의되어 있는 data를 화면에 보여주기**
+```JAVA
+
+
+```
+
+```JAVA
+
+```
+
+
+##4. Looper 사용
+
+
+선택위젯은 보통 데이터가 많아 스크롤할 때 뷰를 재활용해야 버벅거림 발생을 방지할 수 있다.
+즉, 한번 만들어진 뷰가 화면 상태에 그대로 다시 보일 수 있도록 한다.
+이것은 이미 만들어진 뷰들을 그대로 사용하면서 데이터만 바꾸어 보여주는 방식으로, convertview(현재 인덱스에 해당하는 뷰 객체)를 이용한다.
+
+```JAVA
+
+ 
+```
+
+
+# AsyncTask
+테이블 형태와 유사하게 격자 모양으로 아이템 배치를 해주는 위젯
+
+![gridview.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/gridview.JPG?,raw=true)
+
+**gridView 생성**
+```XML
+    
+```
+**gridView inflation**
+
+```JAVA
+
+```
+**inner class로 Adaptor 생성**
+```JAVA
+
+```
+**gridView에 Adaptor를 설정해 주기**
+```JAVA
+
+
+```
+
