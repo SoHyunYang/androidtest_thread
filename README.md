@@ -172,36 +172,35 @@ textView.setText(data);
 
 
 ##3. Runnable 객체 사용
+
+**Handler 객체 생성**
 ```JAVA
+//ResposeHandler Class 지우고
 
-```
-**arrayList 객체를 따로 만들어서 data 관리**
-```JAVA
+//MAinactivity 내에 정의
 
-```
-
-**listitem에 대한 class 생성**
-```JAVA
-
-```
-**adaptor에 item설정해주기**
-```JAVA
-
-```        
-
-
-```JAVA
- 
-```
-**ListItem type으로 ArrayList를 만들고 ListItem객체를 만들어 ListItem 속에 정의되어 있는 data를 화면에 보여주기**
-```JAVA
-
+Handler handler = new Handler();
 
 ```
 
+** doInBackground() 내에서 사용될 println 함수 내에서 Runnable객체 사용**
 ```JAVA
+prinltln(final String data){ //final로 바꿔주기 data접근하려고
+
+Log.d(TAG, data);
+
+handler.post(new Runnable(){
+
+public void run(){
+TextView.setText(data);
+}
+
+
+});
+}
 
 ```
+
 
 
 ##4. Looper 사용
