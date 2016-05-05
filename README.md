@@ -25,7 +25,7 @@ ex) 리스트뷰, 그리드뷰, 스피너, 갤러리
 ##1. java의 Thread 사용 
 ![listView1.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/listView1.JPG?,raw=true)
 
-**listView 생성**
+**Button 생성**
 ```XML
     <ListView
         android:layout_width="wrap_content"
@@ -34,55 +34,45 @@ ex) 리스트뷰, 그리드뷰, 스피너, 갤러리
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 ```
-**listView inflation**
+**Thread 생성**
 
 ```JAVA
-public class MainActivity extends AppCompatActivity {
+MainActivity
 
-    ListView listView;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+private static final String TAG = "MainActivity"
 
-        listView=(ListView)findViewById(R.id.listView);
 
-    }
-```
-**inner class로 Adaptor 생성**
+void onButtonClicked(View v){
+Log.d(TAG,"첫번째 버튼 클릭됨.“);
 
-```JAVA
- public int getCount()
-```
-어댑터에서 관리하는 아이템의 개수를 리턴하는 함수
-```JAVA
- public Object getItem(int position)
-```
-해당 index에 대한 아이템을 리턴하는 함수
-```JAVA
- public long getItemId(int position)
-``` 
-해당 index에 대한 position을 리턴하는 함수
-```JAVA
-public View getView(int position, View convertView, ViewGroup parent)
-```
-각 아이템에 보일 뷰를 리턴하는 함수
+RequestThread thread = new RequestThread();
+thread.start();
 
-첫번째 파라미터 : 아이템의 인덱스를 의미, 리스트뷰에서 보일 아이템의 위치 정보 
+}
+class RequestThread extends Thread{
 
-두번째 파라미터 : 현재 인덱스에 해당하는 뷰 객체 
+public void run(){
+for(int I = 0; i<100; I++){
+println("#"+i + " : 호출됨.“);
 
-세번째 파라미터 : 이 뷰를 포함하고 있는 부모 컨테이너 객체
+try{
+Thread.sleep(500);
+}catch(Exception e){
+e.printStackTrace();
+}
+}
+}
+public void println(String data){
+Log.d(TAG,data);
 
- 
-```JAVA
+}
 
-```
-**listView에 Adaptor를 설정해 주기**
-```JAVA
+
+}
 
 
 ```
+
 
 
 ##2. Handler 사용
