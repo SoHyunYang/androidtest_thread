@@ -212,11 +212,76 @@ http://blog.naver.com/elder815/220533768581참고
 즉, 한번 만들어진 뷰가 화면 상태에 그대로 다시 보일 수 있도록 한다.
 이것은 이미 만들어진 뷰들을 그대로 사용하면서 데이터만 바꾸어 보여주는 방식으로, convertview(현재 인덱스에 해당하는 뷰 객체)를 이용한다.
 
+**Button 만들기**
+
 ```JAVA
 
- 
+ MainActivity
+
+//private static final String TAG ="MainActivity";
+public void onButton1Clicked(View v){
+
+}
+
 ```
 
+**backgroundthread class 정의**
+
+```JAVA
+MainActivity
+
+private static final String TAG ="MainActivity";
+
+class ProcessThread extends Thread{
+
+Handler processHandler = new Handler;
+
+
+public void run(){
+
+for(int I = 0 ; I <100; I++){
+Log.d(TAG,"스레드 동작중 : # “ + I);
+	try{
+	Thread.sleep(1000);
+	catch(Exception e){}
+}
+}
+}
+
+```
+
+**background thread 객체 생성**
+
+```JAVA
+MAin activity
+
+onCreate(){
+
+ProcessThread thread = new ProcessThread();
+thread.start();
+}
+
+```
+
+**Button OnClickListener  정의**
+
+```JAVA
+MainActivity
+ProcessThread thread//밖에 정의
+
+onButton1Clicked(){
+
+thread.processHandler.post(new Runnable(){
+
+public void run(){
+Log.d(TAG, "메인스레드에서 새로운 스레드로 전달됨“);
+}
+
+})
+}
+
+
+```
 
 # AsyncTask
 테이블 형태와 유사하게 격자 모양으로 아이템 배치를 해주는 위젯
