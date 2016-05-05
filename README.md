@@ -183,7 +183,7 @@ Handler handler = new Handler();
 
 ```
 
-** doInBackground() 내에서 사용될 println 함수 내에서 Runnable객체 사용**
+**doInBackground() 내에서 사용될 println 함수 내에서 Runnable객체 사용**
 ```JAVA
 prinltln(final String data){ //final로 바꿔주기 data접근하려고
 
