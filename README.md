@@ -172,6 +172,7 @@ textView.setText(data);
 
 
 ##3. Runnable 객체 사용
+http://micropilot.tistory.com/1994참고
 
 **Handler 객체 생성**
 ```JAVA
