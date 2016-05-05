@@ -149,7 +149,7 @@ public View getView(int position, View convertView, ViewGroup parent)
 
 ![gridview.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/gridview.JPG?,raw=true)
 
-**View 생성**
+**xml파일로 View 생성**
 ```XML
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -161,7 +161,7 @@ public View getView(int position, View convertView, ViewGroup parent)
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="시작 전"
+        android:text="전송상태"
         android:id="@+id/textView"/>
     
     <ProgressBar
@@ -221,12 +221,72 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
-**inner class로 Adaptor 생성**
+**inner class로 BackgroundThread 생성**
 ```JAVA
+int value =0 ; //변수설정
 
 ```
-**gridView에 Adaptor를 설정해 주기**
 ```JAVA
+class BackgroundTask extends AsyncTask<Integer, Integer, Integer>{
+
+
+onPreExcute(){
+value = 0;
+progressBar.setProgress(value);
+}
+
+onPostExcute(){
+value = 0;
+progressBar.setProgress(value);
+textView.setText("중지됨“);
+}
+onProgressUpdate(){
+
+progressBar.setProgress(values[0].intValue());
+textView.setText("진행중 : “ +value.toString());
+}
+
+doInBackground(){
+
+while(!isCancelled())
+{
+ value++;
+if(value>=100){
+break;
+}else{
+publishProgress(value)}
+}
+try{
+Thread.sleep(200);/0.2초
+}catch(Exception e){
+}
+return value;
+
+}
+
+
+
+```
+**Button의 Listener 설정해 주기**
+```JAVA
+
+  start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                task= new BackgroundTask();
+                task.excute(100);//진행상황 100까지 진행?
+            }
+            
+```
+```JAVA
+
+ end_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            task.cancel(true);
+                
+            }
+        }
 
 
 ```
