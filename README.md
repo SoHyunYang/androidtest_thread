@@ -2,7 +2,7 @@
 스터디 진행 : 2016년 5월 7일, 양소현
 최초 작성자 : 양소현
 최초 작성일 : 2016년 5월 5일
-마지막 수정 : 2016년 5월 6일, 양소현
+마지막 수정 : 2016년 5월 7일, 양소현
 ```
 
 # Thread & Handler & Looper
@@ -293,7 +293,7 @@ Log.d(TAG, "메인스레드에서 새로운 스레드로 전달됨“);
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"   
+    android:layout_height="match_parent"
     tools:context="kr.co.mash_up.asynctask_example.MainActivity"
     android:orientation="vertical">
 
@@ -302,11 +302,14 @@ Log.d(TAG, "메인스레드에서 새로운 스레드로 전달됨“);
         android:layout_height="wrap_content"
         android:text="전송상태"
         android:id="@+id/textView"/>
-    
+
     <ProgressBar
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:id="@+id/progressBar"/>
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+
+    />
 
     <Button
         android:layout_width="wrap_content"
@@ -320,7 +323,8 @@ Log.d(TAG, "메인스레드에서 새로운 스레드로 전달됨“);
         android:text="중지"
         android:id="@+id/end_btn"/>
 
-</LinearLayout>    
+</LinearLayout>
+   
 ```
 **View inflation**
 
@@ -366,67 +370,76 @@ int value =0 ; //변수설정
 
 ```
 ```JAVA
-class BackgroundTask extends AsyncTask<Integer, Integer, Integer>{
+  class BackgroundTask extends AsyncTask<Integer, Integer, Integer> {
+
+        @Override
+        protected void onPreExecute() {
+
+            value = 0;
+            progressBar.setProgress(value);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+
+            value = 0;
+            progressBar.setProgress(value);
+            textView.setText("끝남");
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
 
 
-onPreExcute(){
-value = 0;
-progressBar.setProgress(value);
-}
+            progressBar.setProgress(values[0].intValue());
+            textView.setText("진행중 : " + values[0].toString());
 
-onPostExcute(){
-value = 0;
-progressBar.setProgress(value);
-textView.setText("중지됨“);
-}
-onProgressUpdate(){
+        }
 
-progressBar.setProgress(values[0].intValue());
-textView.setText("진행중 : “ +value.toString());
-}
+        @Override
+        protected Integer doInBackground(Integer... params) {
 
-doInBackground(){
+            while(!isCancelled()) {
+                value++;
+                if (value >= 100) {
+                    break;
+                } else {
+                    publishProgress(value);
+                }
 
-while(!isCancelled())
-{
- value++;
-if(value>=100){
-break;
-}else{
-publishProgress(value)}
-}
-try{
-Thread.sleep(200);/0.2초
-}catch(Exception e){
-}
-return value;
+                try {
+                    Thread.sleep(200);//0.2초
+                } catch (Exception e) {
+                }
 
-}
+            }
 
-
+            return value;
+        }
+    }
 
 ```
 **Button의 Listener 설정해 주기**
 ```JAVA
 
-  start_btn.setOnClickListener(new View.OnClickListener() {
+    start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                task= new BackgroundTask();
-                task.excute(100);//진행상황 100까지 진행?
-            }
-            
-```
-```JAVA
+                task = new BackgroundTask();
+                task.execute(100);
 
- end_btn.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+        end_btn=(Button)findViewById(R.id.end_btn);
+
+        end_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            task.cancel(true);
-                
+                task.cancel(true);
+                textView.setText("취소됨");
             }
-        }
-
+        });
 
 ```
 
