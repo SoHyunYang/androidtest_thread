@@ -120,95 +120,105 @@ public class MainActivity extends AppCompatActivity {
 ##2. Handler 사용
 ![listView2.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/listView2.JPG?,raw=true)
 
-**XML파일로 textView 만들기 **
+**textView 생성 & inflation **
 
 ```XML
-
+   <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시작"
+        android:id="@+id/textView"/>
 
 ```
-**textView inflation**
+
 ```JAVA
-MainActivity
+public class MainActivity extends AppCompatActivity {
+    Button start_btn;
+    private static final String TAG = "MainActivity";
+    TextView textView;
 
-private static final String TAG = "MainActivity"
-TextView textView;
 
-onCreate(){
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-textView = (TextView)findViewById(R.id.textView);
-}
+        textView = (TextView)findViewById(R.id.textView);
 
 ```
 
 **handler 사용하지 않았을 시 오류**
 
 ```JAVA
-void onButtonClicked(View v){
-Log.d(TAG,"첫번째 버튼 클릭됨.“);
+  public void onClick(View v) {
+                Log.d(TAG, "첫번째 버튼 클릭됨.");
+                
+                textView.setText("스레드 시작함");
 
-textView.setText(“스레드 시작함”);
-
-RequestThread thread = new RequestThread();
-thread.start();
-
-}
+                RequestThread thread = new RequestThread();
+                thread.start();
+            }
+        });
 
 ```
 
 ```JAVA
-public void println(String data){
-Log.d(TAG,data);
-TextView.setText(data);// 오류
+ public void println(String data) {
+            Log.d(TAG, data);
+            textView.setText(data);//오류남(handler미사용시 UI접근불가능)
+
+        }
 
 
 ```
 **handler class정의 후 handler 객체 생성**
 ```JAVA
-class ResponseHandler extends Handler{
-handlerMessage(){
-
-}
-}
-
+ class ResponseHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    }
 
 ```
 ```JAVA
-MainActivity
-
-private static final String TAG = "MainActivity"
-TextView textView;
-2. //Handler 객체 생성
-ResponseHandler handler = new ResponseHandler();
+public class MainActivity extends AppCompatActivity {
+    Button start_btn;
+    private static final String TAG = "MainActivity";
+    TextView textView;
+    ResponseHandler handler = new ResponseHandler();
 
 ```
 
 **handler를 통해 message전달**
 ```JAVA
-public void println(String data){
-Log.d(TAG,data);
-//TextView.setText(data);// 오류
+public void println(String data) {
+            Log.d(TAG, data);
+          //  textView.setText(data);//오류남(handler미사용시 UI접근불가능)
 
-Message message = handler.obtainMessage();
-Bundle bundle = new Bundle();
-bundle.putString("data", data);
-message.setData(bundle);
+            Message message = handler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("data", data);
+            message.setData(bundle);
 
-handler.sendMessage(message);
+            handler.sendMessage(message);
 
-}
+        }
 
 ```
 
 ```JAVA
-class ResponseHandler extends Handler{
-handlerMessage(){
- Bundle bundle= msg.getData();
-String data = bundle.getString("data");
+ class ResponseHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            
 
-textView.setText(data);
-}
-}
+            Bundle bundle= msg.getData();
+            String data = bundle.getString("data");
 
+            textView.setText(data);
+        }
+    }
 
 ```
 
