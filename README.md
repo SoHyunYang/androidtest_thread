@@ -25,14 +25,44 @@ ex) 리스트뷰, 그리드뷰, 스피너, 갤러리
 ##1. java의 Thread 사용 
 ![listView1.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/listView1.JPG?,raw=true)
 
-**Button 생성**
+**Button 생성 & inflation**
 ```XML
-    <ListView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kr.co.mash_up.asynctask_example.MainActivity"
+    android:orientation="vertical">
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text="시작"
+        android:id="@+id/start_btn"
+        >
+
+    </Button>
+</LinearLayout>
+
+```
+```JAVA
+public class MainActivity extends AppCompatActivity {
+    Button start_btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        start_btn=(Button)findViewById(R.id.start_btn);
+        start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+    }
+}
 ```
 **Thread 생성**
 
