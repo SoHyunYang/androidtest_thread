@@ -67,39 +67,51 @@ public class MainActivity extends AppCompatActivity {
 **Thread 생성**
 
 ```JAVA
-MainActivity
+public class MainActivity extends AppCompatActivity {
+    Button start_btn;
+    private static final String TAG = "MainActivity";
 
-private static final String TAG = "MainActivity"
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        start_btn = (Button) findViewById(R.id.start_btn);
+        start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "첫번째 버튼 클릭됨.");
+
+                RequestThread thread = new RequestThread();
+                thread.start();
 
 
-void onButtonClicked(View v){
-Log.d(TAG,"첫번째 버튼 클릭됨.“);
+            }
+        });
+    }
 
-RequestThread thread = new RequestThread();
-thread.start();
+    class RequestThread extends Thread {
 
+        public void run() {
+            for (int i = 0; i < 100; i++) {
+                println("#" + i + " : 호출됨.");
+
+                try {
+                    Thread.sleep(500);//0.5초
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void println(String data) {
+            Log.d(TAG, data);
+
+        }
+
+    }
 }
-class RequestThread extends Thread{
-
-public void run(){
-for(int I = 0; i<100; I++){
-println("#"+i + " : 호출됨.“);
-
-try{
-Thread.sleep(500);
-}catch(Exception e){
-e.printStackTrace();
-}
-}
-}
-public void println(String data){
-Log.d(TAG,data);
-
-}
-
-
-}
-
 
 ```
 
