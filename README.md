@@ -228,30 +228,31 @@ http://micropilot.tistory.com/1994참고
 
 **Handler 객체 생성**
 ```JAVA
-//ResposeHandler Class 지우고
+//ResposeHandler 객체 지우고 MAinactivity 내에 Handler 객체 정의
 
-//MAinactivity 내에 정의
 
-Handler handler = new Handler();
+public class MainActivity extends AppCompatActivity {
+    Button start_btn;
+    private static final String TAG = "MainActivity";
+    TextView textView;
+    Handler handler = new Handler();
 
 ```
 
 **Thread 내에서 사용될 println 함수 내에서 Runnable객체 사용**
 ```JAVA
-prinltln(final String data){ //final로 바꿔주기 data접근하려고
+  public void println(final String data) {
+            Log.d(TAG, data);
+          //  textView.setText(data);//오류남(handler미사용시 UI접근불가능)
 
-Log.d(TAG, data);
+            handler.post(new Runnable(){
 
-handler.post(new Runnable(){
+                public void run(){
+                    textView.setText(data);
+                }
 
-public void run(){
-TextView.setText(data);
-}
-
-
-});
-}
-
+                });
+        }
 ```
 
 
