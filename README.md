@@ -212,19 +212,91 @@ http://blog.naver.com/elder815/220533768581참고
 즉, 한번 만들어진 뷰가 화면 상태에 그대로 다시 보일 수 있도록 한다.
 이것은 이미 만들어진 뷰들을 그대로 사용하면서 데이터만 바꾸어 보여주는 방식으로, convertview(현재 인덱스에 해당하는 뷰 객체)를 이용한다.
 
-**Button 만들기**
+**xml파일로 View 생성**
 
-```JAVA
+```XML
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kr.co.mash_up.asynctask_example.MainActivity"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
- MainActivity
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="mainthread에서 받은 data"
+       />
 
-//private static final String TAG ="MainActivity";
-public void onButton1Clicked(View v){
+   <EditText
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/main_text"
+       />
+    </LinearLayout>
 
-}
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Backgroundthread에서 받은 data"
+            android:id="@+id/textView"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/back_text"
+            />
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시작"
+        android:id="@+id/start_btn"
+        >
+
+    </Button>
+</LinearLayout>
+
+
 
 ```
 
+**View inflation**
+```JAVA
+public class MainActivity extends AppCompatActivity {
+    
+    Button start_btn;
+    EditText main_text;//mainthread에서 받은 문자열
+    EditText back_text;//mainthread에서 보내져 backthread에서 받은 문자열
+    
+    
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        main_text =(EditText)findViewById(R.id.main_text);
+        back_text =(EditText)findViewById(R.id.back_text);
+        start_btn=(Button)findViewById(R.id.start_btn);
+        
+          start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+    }
+}
+```
 **backgroundthread class 정의**
 
 ```JAVA
@@ -249,37 +321,111 @@ Log.d(TAG,"스레드 동작중 : # “ + I);
 }
 
 ```
+**Mainthread에서 text받아와서 Backgroundthread 객체에 넘겨주기**
+```JAVA
+public class MainActivity extends AppCompatActivity {
 
-**background thread 객체 생성**
+    Button start_btn;
+    EditText main_text;//mainthread에서 받은 문자열
+    EditText back_text;//mainthread에서 보내져 backthread에서 받은 문자열
+
+    BackgroundThread backgroundThread;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        main_text =(EditText)findViewById(R.id.main_text);
+        back_text =(EditText)findViewById(R.id.back_text);
+        start_btn=(Button)findViewById(R.id.start_btn);
+
+      backgroundThread = new BackgroundThread();
+      
+ 	start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String inStr = main_text.getText().toString();
+                Message msgToSend = Message.obtain();
+                msgToSend.obj = inStr;
+                backgroundThread.handler.sendMessage(msgToSend);
+            
+            }
+        });
+
+        backgroundThread.start();
+               
+    }
+
+	class BackgroundThread extends Thread{}
+}
+
+  
+```
+
+**background thread Class & Handler 정의**
+
 
 ```JAVA
-MAin activity
+  class BackgroundThread extends Thread{
+        BackgroundHandler handler;
+        public BackgroundThread() {
+            handler= new BackgroundHandler();
+        }
+        
+        public void run(){
+            Looper.prepare();
+            Looper.loop();
+        }
+    }
+    
+    class BackgroundHandler extends Handler {
 
-onCreate(){
-
-ProcessThread thread = new ProcessThread();
-thread.start();
-}
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Message resultMsg = Message.obtain();
+            resultMsg.obj = "Hello"+msg.obj ;
+            
+            mainHandler.sendMessage(resultMsg);
+        }
+    }
 
 ```
 
-**Button OnClickListener  정의**
+```JAVA
+public class MainActivity extends AppCompatActivity {
+
+    Button start_btn;
+    EditText main_text;//mainthread에서 받은 문자열
+    EditText back_text;//mainthread에서 보내져 backthread에서 받은 문자열
+
+    BackgroundThread backgroundThread;
+    MainHandler mainHandler; //mainHandler객체 정의
+```
+
+**Mainthread Handler 정의**
 
 ```JAVA
-MainActivity
-ProcessThread thread//밖에 정의
 
-onButton1Clicked(){
+   protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        main_text =(EditText)findViewById(R.id.main_text);
+        back_text =(EditText)findViewById(R.id.back_text);
+        start_btn=(Button)findViewById(R.id.start_btn);
+        mainHandler= new MainHandler();//mainhandler 객체 생성
+```
 
-thread.processHandler.post(new Runnable(){
+```JAVA
+ class MainHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg){
+            String str=(String)msg.obj;
+            back_text.setText(str);
 
-public void run(){
-Log.d(TAG, "메인스레드에서 새로운 스레드로 전달됨“);
-}
-
-})
-}
-
+        }
+    }
 
 ```
 
