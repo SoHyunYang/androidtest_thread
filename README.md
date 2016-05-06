@@ -297,30 +297,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
-**backgroundthread class 정의**
 
-```JAVA
-MainActivity
-
-private static final String TAG ="MainActivity";
-
-class ProcessThread extends Thread{
-
-Handler processHandler = new Handler;
-
-
-public void run(){
-
-for(int I = 0 ; I <100; I++){
-Log.d(TAG,"스레드 동작중 : # “ + I);
-	try{
-	Thread.sleep(1000);
-	catch(Exception e){}
-}
-}
-}
-
-```
 **Mainthread에서 text받아와서 Backgroundthread 객체에 넘겨주기**
 ```JAVA
 public class MainActivity extends AppCompatActivity {
@@ -589,3 +566,5 @@ int value =0 ; //변수설정
 
 ```
 
+###참고문헌###
+Do it! 안드로이드 앱 프로그래밍
