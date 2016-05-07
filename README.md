@@ -6,21 +6,16 @@
 ```
 
 # Thread & Handler & Looper
-여러개의 item을 중에 하나를 선택할 수 있는 위젯
 
-ex) 리스트뷰, 그리드뷰, 스피너, 갤러리
 
 **Thread**
 
 **Handler**
 
-직접 위젯에 원본데이터를 설정할 수 없다.-> 데이터 설정 및 관리를 하기 위해 어댑터를 사용
 
-어댑터에서 만들어주는 뷰를 이용하여(getView()method 사용) 리스트뷰의 아이템을 보여준다. 
 
 **Looper**
-![selectionwidget.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/selectionwidget.JPG?,raw=true)
-# List View
+
 
 ##1. java의 Thread 사용 
 
@@ -122,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 ##2. Handler 사용
-![listView2.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/listView2.JPG?,raw=true)
 
 **textView 생성 & inflation **
 
@@ -363,9 +357,7 @@ public class MainActivity extends AppCompatActivity {
 
 http://blog.naver.com/elder815/220533768581참고
 
-선택위젯은 보통 데이터가 많아 스크롤할 때 뷰를 재활용해야 버벅거림 발생을 방지할 수 있다.
-즉, 한번 만들어진 뷰가 화면 상태에 그대로 다시 보일 수 있도록 한다.
-이것은 이미 만들어진 뷰들을 그대로 사용하면서 데이터만 바꾸어 보여주는 방식으로, convertview(현재 인덱스에 해당하는 뷰 객체)를 이용한다.
+
 
 **xml파일로 View 생성**
 
