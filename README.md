@@ -23,7 +23,11 @@ ex) 리스트뷰, 그리드뷰, 스피너, 갤러리
 # List View
 
 ##1. java의 Thread 사용 
-![listView1.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/listView1.JPG?,raw=true)
+
+
+![thread_1.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/thread_1.JPG?,raw=true)
+![thread_2.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/thread_2.JPG?,raw=true)
+![thread_3.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/thread_3.JPG?,raw=true)
 
 **Button 생성 & inflation**
 ```XML
@@ -354,6 +358,9 @@ public class MainActivity extends AppCompatActivity {
 
 ##5. Looper 사용
 
+![Looper_1.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/Looper_1.JPG?,raw=true)
+![Looper_2.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/Looper_2.JPG?,raw=true)
+
 http://blog.naver.com/elder815/220533768581참고
 
 선택위젯은 보통 데이터가 많아 스크롤할 때 뷰를 재활용해야 버벅거림 발생을 방지할 수 있다.
@@ -557,7 +564,8 @@ public class MainActivity extends AppCompatActivity {
 # AsyncTask
 테이블 형태와 유사하게 격자 모양으로 아이템 배치를 해주는 위젯
 
-![gridview.JPG](https://github.com/SoHyunYang/androidstudy_test/blob/master/gridview.JPG?,raw=true)
+![asynctask_1.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/asynctask_1.JPG?,raw=true)
+![asynctask_2.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/asynctask_2.JPG?,raw=true)
 
 **xml파일로 View 생성**
 ```XML
