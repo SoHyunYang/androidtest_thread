@@ -255,9 +255,104 @@ public class MainActivity extends AppCompatActivity {
         }
 ```
 
+##4. Thread 정지 
+
+**정지버튼 생성**
+```XML
+ <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="중지"
+        android:id="@+id/stop_btn"
+        >
+
+    </Button>
+```
+
+**flag를 만들어 정지버튼을 눌렀을 때 Thread 정지시키기**
+```JAVA
+
+public class MainActivity extends AppCompatActivity {
+    Button start_btn;
+    Button stop_btn;
+    private static final String TAG = "MainActivity";
+    TextView textView;
+    Handler mHandler = new Handler();
+
+    int cur = 0;
+    boolean running;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
 
-##4. Looper 사용
+        textView = (TextView) findViewById(R.id.textView);
+        start_btn = (Button) findViewById(R.id.start_btn);
+        stop_btn = (Button) findViewById(R.id.stop_btn);
+        start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d(TAG, "첫번째 버튼 클릭됨.");
+                textView.setText("스레드 시작함");
+
+                RequestThread thread = new RequestThread();
+                thread.start();
+
+
+            }
+        });
+
+        stop_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                running = false;
+
+
+            }
+        });
+    }
+
+    class RequestThread extends Thread {
+
+
+        public void run() {
+
+            running = true;
+            while (running) {
+
+
+                synchronized (this) {
+
+                    mHandler.post(new Runnable() {
+
+                        public void run() {
+                            if (cur > 100)
+                                cur = 0;
+
+                            textView.setText("count : " + Integer.toString(cur));
+                            cur++;
+                        }
+
+                    });
+
+                    try {
+
+                        Thread.sleep(500);
+
+                    } catch (InterruptedException ex) {
+                    }
+                }
+            }
+        }
+    }   
+
+}
+```
+
+##5. Looper 사용
 
 http://blog.naver.com/elder815/220533768581참고
 
