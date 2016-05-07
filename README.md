@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 ##4. Thread 정지 
-
+http://happyourlife.tistory.com/m/post/121 참고
 **정지버튼 생성**
 ```XML
  <Button
@@ -554,7 +554,7 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 # AsyncTask
-테이블 형태와 유사하게 격자 모양으로 아이템 배치를 해주는 위젯
+http://blog.naver.com/shadowbug/220461684842 참고
 
 ![asynctask_1.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/asynctask_1.JPG?,raw=true)
 ![asynctask_2.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/asynctask_2.JPG?,raw=true)
