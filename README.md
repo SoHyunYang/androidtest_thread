@@ -16,6 +16,7 @@
 **Handler**
 
 ![handler_explain.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/handler_explain.JPG?,raw=true)
+
 안드로이드는 UI 스레드라는 것이 존재하는데 UI 와 관련된 작업은 UI스레드만 할 수 있다. 
 그래서 안드로이드는 백그라운드 스레드와 UI 스레드의 통신 방법으로 핸들러(Handler)를 제공한다.
 핸들러는 메시지를 받거나 보낼수 있고, 메시지에 따라 특정 작업을 실행 할 수 있다. 
@@ -24,6 +25,7 @@
 **Looper**
 
 ![LooperHandler.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/LooperHandler.JPG?,raw=true)
+
 메인 스레드는 내부적으로 Looper를 가지며 그 안에는 Message Queue가 포함된다. Message Queue는 스레드가 다른 스레드나 혹은 자기 자신으로부터 전달받은 Message를 기본적으로 선입선출 형식으로 보관하는 Queue이다. Looper는 Message Queue에서 Message나 Runnable 객체를 차례로 꺼내 Handler가 처리하도록 전달한다. Handler는 Looper로부터 받은 Message를 실행, 처리하거나 다른 스레드로부터 메시지를 받아서 Message Queue에 넣는 역할을 하는 스레드 간의 통신 장치를 말한다.
 
 
