@@ -9,12 +9,20 @@
 
 
 **Thread**
+컴퓨터 프로그램 수행 시 프로세스 내부에 존재하는 수행 경로, 즉 일련의 실행 코드. 프로세스는 단순한 껍데기일 뿐, 실제 작업은 스레드가 담당한다. 프로세스 생성 시 하나의 주 스레드가 생성되어 대부분의 작업을 처리하고 주 스레드가 종료되면 프로세스도 종료된다. 하나의 운영 체계에서 여러 개의 프로세스가 동시에 실행되는 환경이 멀티태스킹이고, 하나의 프로세스 내에서 다수의 스레드가 동시에 수행되는 것이 멀티스레딩이다
+
 
 **Handler**
-
+![handler_explain.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/handler_explain.JPG?,raw=true)
+안드로이드는 UI 스레드라는 것이 존재하는데 UI 와 관련된 작업은 UI스레드만 할 수 있다. 
+그래서 안드로이드는 백그라운드 스레드와 UI 스레드의 통신 방법으로 핸들러(Handler)를 제공한다.
+핸들러는 메시지를 받거나 보낼수 있고, 메시지에 따라 특정 작업을 실행 할 수 있다. 
 
 
 **Looper**
+![LooperHandler.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/LooperHandler.JPG?,raw=true)
+메인 스레드는 내부적으로 Looper를 가지며 그 안에는 Message Queue가 포함된다. Message Queue는 스레드가 다른 스레드나 혹은 자기 자신으로부터 전달받은 Message를 기본적으로 선입선출 형식으로 보관하는 Queue이다. Looper는 Message Queue에서 Message나 Runnable 객체를 차례로 꺼내 Handler가 처리하도록 전달한다. Handler는 Looper로부터 받은 Message를 실행, 처리하거나 다른 스레드로부터 메시지를 받아서 Message Queue에 넣는 역할을 하는 스레드 간의 통신 장치를 말한다.
+
 
 
 ##1. java의 Thread 사용 
@@ -223,6 +231,10 @@ public void println(String data) {
 
 ##3. Runnable 객체 사용
 http://micropilot.tistory.com/1994참고
+새 스레드는 Thread() 생성자로 만들어서 내부적으로 run()을 구현하던지, Thread(Runnable runnable) 생성자로 만들어서 Runnable 인터페이스를 구현한 객체를 생성하여 전달하던지 둘 중 하나의 방법으로 생성하게 된다. 후자에서 사용하는 것이 Runnable로 스레드의 run() 메서드를 분리한 것이다. 따라서 Runnable 인터페이스는 run() 추상 메서드를 가지고 있으므로 상속받은 클래스는 run()코드를 반드시 구현해야 한다.
+앞서 언급한대로 Message가 int나 Object같이 스레드 간 통신할 내용을 담는다면, Runnable은 실행할 run() 메서드와 그 내부에서 실행될 코드를 담는다는 차이점이 있다.
+
+
 
 **Handler 객체 생성**
 ```JAVA
@@ -555,6 +567,11 @@ public class MainActivity extends AppCompatActivity {
 
 # AsyncTask
 http://blog.naver.com/shadowbug/220461684842 참고
+![asynctask_structure.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/asynctask_structure.JPG?,raw=true)
+
+
+AsyncTask는 스레드나 메시지 루프 등의 작동 원리를 몰라도 하나의 클래스에서 UI작업과 backgrond 작업을 쉽게 할 수 있도록 안드로이드에서 제공하는 클래스이다. 캡슐화가 잘 되어 있기 때문에 사용시 코드 가독성이 증대되는 장점이 있으며, 태스크 스케쥴을 관리할 수 있는 콜백 메서드를 제공하고, 필요할 때 쉽게 UI 갱신도 가능하며 작업 취소도 쉽다. 따라서 리스트에 보여주기 위한 데이터 다운로드 등 UI와 관련된 독립된 작업을 실행할 경우 AsyncTask로 간단하게 구현할 수 있다.
+
 
 ![asynctask_1.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/asynctask_1.JPG?,raw=true)
 ![asynctask_2.JPG](https://github.com/SoHyunYang/androidtest_thread/blob/master/asynctask_2.JPG?,raw=true)
@@ -716,3 +733,12 @@ int value =0 ; //변수설정
 
 ###참고문헌###
 Do it! 안드로이드 앱 프로그래밍
+
+
+[네이버 지식백과] 스레드 [thread] (IT용어사전, 한국정보통신기술협회)
+
+[출처] [Android Thread] 쓰레드 , 핸들러 |작성자 사자머리님
+
+[출처] 안드로이드 백그라운드 잘 다루기 - Thread, Looper, Handler|작성자 mari
+
+
